@@ -49,7 +49,7 @@ class JSONManager:
             logger.error("Failed to load JSON vault: %s", exc)
             return []
 
-        accounts = []
+        accounts: list[Account] = []
         for row in data:
             try:
                 accounts.append(Account.from_dict(row))
