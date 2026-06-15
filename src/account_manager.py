@@ -13,7 +13,6 @@ import logging
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +40,7 @@ class Account:
         if not self.created_at:
             self.created_at = datetime.now().isoformat(timespec="seconds")
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> dict[str, str]:
         """Serialize to a flat dict for CSV/JSON export."""
         return {
             "id": self.id,
@@ -83,7 +82,7 @@ class Account:
         except ValueError:
             return False
 
-    def days_until_expiry(self) -> Optional[int]:
+    def days_until_expiry(self) -> int | None:
         if not self.expires_at:
             return None
         try:
@@ -123,9 +122,9 @@ class AccountManager:
         Create and store a new account.
 
         Args:
+            website: Website or service name.
             username: Login username.
             email: Associated email address.
-            website: Website or service name.
             password: The credential password.
             category: One of the predefined categories.
             notes: Optional freeform notes.
@@ -152,7 +151,7 @@ class AccountManager:
         logger.info("Added account: %s (%s)", website, username)
         return account
 
-    def get(self, account_id: str) -> Optional[Account]:
+    def get(self, account_id: str) -> Account | None:
         """Retrieve an account by ID."""
         return self._accounts.get(account_id)
 
@@ -160,13 +159,13 @@ class AccountManager:
         self,
         account_id: str,
         *,
-        username: Optional[str] = None,
-        email: Optional[str] = None,
-        website: Optional[str] = None,
-        password: Optional[str] = None,
-        category: Optional[str] = None,
-        notes: Optional[str] = None,
-        expiry_days: Optional[int] = None,
+        username: str | None = None,
+        email: str | None = None,
+        website: str | None = None,
+        password: str | None = None,
+        category: str | None = None,
+        notes: str | None = None,
+        expiry_days: int | None = None,
     ) -> Account:
         """
         Update fields on an existing account.
