@@ -110,41 +110,29 @@ class PasswordGenerator:
 
     # ── Private helpers ────────────────────────────────────────────────────
 
+    def _enabled_pools(self, opts: GeneratorOptions) -> list[str]:
+        """Return the character pool for each enabled group, in fixed order."""
+        pools: list[str] = []
+        if opts.uppercase:
+            pools.append(string.ascii_uppercase)
+        if opts.lowercase:
+            pools.append(string.ascii_lowercase)
+        if opts.digits:
+            pools.append(string.digits)
+        if opts.symbols:
+            pools.append(string.punctuation)
+        if opts.exclude_ambiguous:
+            pools = [self._strip_ambiguous(pool) for pool in pools]
+        return pools
+
+    def _strip_ambiguous(self, chars: str) -> str:
+        """Remove visually ambiguous characters (0, O, l, 1, I) from a pool."""
+        return "".join(c for c in chars if c not in self.AMBIGUOUS_CHARS)
+
     def _build_charset(self, opts: GeneratorOptions) -> str:
         """Assemble the character set from enabled options."""
-        charset = ""
-        if opts.uppercase:
-            charset += string.ascii_uppercase
-        if opts.lowercase:
-            charset += string.ascii_lowercase
-        if opts.digits:
-            charset += string.digits
-        if opts.symbols:
-            charset += string.punctuation
-
-        if opts.exclude_ambiguous:
-            charset = "".join(c for c in charset if c not in self.AMBIGUOUS_CHARS)
-
-        return charset
+        return "".join(self._enabled_pools(opts))
 
     def _required_chars(self, opts: GeneratorOptions) -> list[str]:
         """Return one guaranteed character per enabled group."""
-        required: list[str] = []
-        if opts.uppercase:
-            pool = string.ascii_uppercase
-            if opts.exclude_ambiguous:
-                pool = "".join(c for c in pool if c not in self.AMBIGUOUS_CHARS)
-            required.append(secrets.choice(pool))
-        if opts.lowercase:
-            pool = string.ascii_lowercase
-            if opts.exclude_ambiguous:
-                pool = "".join(c for c in pool if c not in self.AMBIGUOUS_CHARS)
-            required.append(secrets.choice(pool))
-        if opts.digits:
-            pool = string.digits
-            if opts.exclude_ambiguous:
-                pool = "".join(c for c in pool if c not in self.AMBIGUOUS_CHARS)
-            required.append(secrets.choice(pool))
-        if opts.symbols:
-            required.append(secrets.choice(string.punctuation))
-        return required
+        return [secrets.choice(pool) for pool in self._enabled_pools(opts)]
