@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Generated / sensitive vault data
+vault/*.csv
+vault/*.json
+vault/*.dat
+vault/.vault.key
+
+# Runtime output
+logs/*.log
+reports/*.txt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,27 @@
+{
+  "password": {
+    "default_length": 20,
+    "min_length": 8,
+    "max_length": 128,
+    "default_uppercase": true,
+    "default_lowercase": true,
+    "default_digits": true,
+    "default_symbols": true
+  },
+  "expiration": {
+    "default_days": 90,
+    "warn_days_before": 14
+  },
+  "vault": {
+    "csv_path": "vault/accounts.csv",
+    "json_path": "vault/accounts.json",
+    "encrypted_path": "vault/encrypted_vault.dat",
+    "key_path": "vault/.vault.key"
+  },
+  "history": {
+    "max_entries": 5
+  },
+  "report": {
+    "output_path": "reports/security_report.txt"
+  }
+}
