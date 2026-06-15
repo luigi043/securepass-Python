@@ -132,12 +132,12 @@ def cmd_generate(vault: VaultService, args: argparse.Namespace) -> None:
 
 def cmd_check(vault: VaultService, args: argparse.Namespace) -> None:
     result = vault.strength.analyze(args.password)
-    print(f"\n  Password Strength Analysis")
+    print("\n  Password Strength Analysis")
     print(f"  {'─'*45}")
     print(f"  Password : {'*' * len(args.password)}")
     print(f"  Score    : {result.score}/100")
     print(f"  Rating   : {result.label}")
-    print(f"\n  Feedback:")
+    print("\n  Feedback:")
     for tip in result.feedback:
         print(f"    • {tip}")
     print()
@@ -158,7 +158,7 @@ def cmd_add(vault: VaultService, args: argparse.Namespace) -> None:
     )
     vault.save()
 
-    print(f"\n  Account added successfully")
+    print("\n  Account added successfully")
     print(f"  {'─'*45}")
     print(f"  ID       : {account.id[:8]}…")
     print(f"  Website  : {account.website}")
@@ -230,7 +230,7 @@ def cmd_delete(vault: VaultService, args: argparse.Namespace) -> None:
 
 
 def cmd_expiry(vault: VaultService) -> None:
-    print(f"\n  Password Expiration Status")
+    print("\n  Password Expiration Status")
     vault.expiration.print_warnings(vault.accounts)
 
 
