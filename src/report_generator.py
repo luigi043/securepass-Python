@@ -48,7 +48,8 @@ class ReportGenerator:
             return report
 
         # Analyse password strengths
-        strength_counts: Counter = Counter()
+        weak_threshold = self._checker.MIN_ACCEPTABLE_SCORE
+        strength_counts: Counter[str] = Counter()
         weak_accounts: list[Account] = []
         scores: list[int] = []
 
@@ -56,7 +57,7 @@ class ReportGenerator:
             result = self._checker.analyze(account.password)
             strength_counts[result.label] += 1
             scores.append(result.score)
-            if result.score < 60:
+            if result.score < weak_threshold:
                 weak_accounts.append(account)
 
         avg_score = sum(scores) / len(scores) if scores else 0
