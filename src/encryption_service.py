@@ -95,12 +95,12 @@ class EncryptionService:
             RuntimeError: If the key has not been loaded.
             FileNotFoundError: If source doesn't exist.
         """
-        self._require_key()
+        fernet = self._require_key()
         if not source.exists():
             raise FileNotFoundError(f"Source file not found: {source}")
 
         plaintext = source.read_bytes()
-        ciphertext = self._fernet.encrypt(plaintext)  # type: ignore[union-attr]
+        ciphertext = fernet.encrypt(plaintext)
 
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_bytes(ciphertext)
@@ -118,13 +118,13 @@ class EncryptionService:
             RuntimeError: If the key has not been loaded.
             ValueError: If the file cannot be decrypted (wrong key or corrupted).
         """
-        self._require_key()
+        fernet = self._require_key()
         if not source.exists():
             raise FileNotFoundError(f"Encrypted vault not found: {source}")
 
         try:
             ciphertext = source.read_bytes()
-            plaintext = self._fernet.decrypt(ciphertext)  # type: ignore[union-attr]
+            plaintext = fernet.decrypt(ciphertext)
         except InvalidToken as exc:
             raise ValueError(
                 "Decryption failed. The vault may be corrupted or the key is incorrect."
@@ -136,19 +136,21 @@ class EncryptionService:
 
     def encrypt_string(self, plaintext: str) -> bytes:
         """Encrypt a string and return ciphertext bytes."""
-        self._require_key()
-        return self._fernet.encrypt(plaintext.encode())  # type: ignore[union-attr]
+        fernet = self._require_key()
+        return fernet.encrypt(plaintext.encode())
 
     def decrypt_string(self, ciphertext: bytes) -> str:
         """Decrypt ciphertext bytes and return a string."""
-        self._require_key()
+        fernet = self._require_key()
         try:
-            return self._fernet.decrypt(ciphertext).decode()  # type: ignore[union-attr]
+            return fernet.decrypt(ciphertext).decode()
         except InvalidToken as exc:
             raise ValueError("Decryption failed.") from exc
 
     # ── Helpers ───────────────────────────────────────────────────────────
 
-    def _require_key(self) -> None:
+    def _require_key(self) -> Fernet:
+        """Return the loaded Fernet instance, or raise if no key is loaded."""
         if self._fernet is None:
             raise RuntimeError("No encryption key loaded. Call load_key() or ensure_key() first.")
+        return self._fernet
