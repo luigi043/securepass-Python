@@ -1,0 +1,29 @@
+# Tooling configuration for SecurePass Manager.
+# Install dev tools with: pip install -r requirements-dev.txt
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# E/W: pycodestyle, F: pyflakes, I: isort, UP: pyupgrade,
+# B: flake8-bugbear, SIM: flake8-simplify, C4: comprehensions.
+select = ["E", "W", "F", "I", "UP", "B", "SIM", "C4"]
+# Line length is enforced by the formatter, not the linter.
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_redundant_casts = true
+warn_unused_ignores = true
+no_implicit_optional = true
+# The cryptography package ships its own types; ignore any third-party
+# imports that lack stubs rather than failing the run.
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
