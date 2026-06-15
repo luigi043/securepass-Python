@@ -9,13 +9,13 @@ import json
 import logging
 from pathlib import Path
 
-from src.account_manager import Account, AccountManager
+from src.account_manager import AccountManager
 from src.csv_manager import CSVManager
-from src.json_manager import JSONManager
 from src.encryption_service import EncryptionService
-from src.password_generator import PasswordGenerator, GeneratorOptions
-from src.password_strength import PasswordStrengthChecker
 from src.expiration_manager import ExpirationManager
+from src.json_manager import JSONManager
+from src.password_generator import GeneratorOptions, PasswordGenerator
+from src.password_strength import PasswordStrengthChecker
 from src.report_generator import ReportGenerator
 
 logger = logging.getLogger(__name__)

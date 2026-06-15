@@ -6,8 +6,8 @@ Commands are grouped into subcommands via argparse.
 """
 
 import argparse
-import sys
 import logging
+import sys
 from pathlib import Path
 
 # ── Bootstrap logging before importing application modules ────────────────
@@ -20,7 +20,6 @@ logging.basicConfig(
 Path("logs").mkdir(exist_ok=True)
 
 from src.vault_service import VaultService  # noqa: E402
-
 
 BANNER = """
 ╔══════════════════════════════════════════════╗

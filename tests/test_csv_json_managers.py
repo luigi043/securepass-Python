@@ -1,6 +1,7 @@
 """Tests for CSVManager and JSONManager."""
+
 import pytest
-from pathlib import Path
+
 from src.account_manager import AccountManager
 from src.csv_manager import CSVManager
 from src.json_manager import JSONManager

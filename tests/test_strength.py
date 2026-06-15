@@ -1,6 +1,5 @@
 """Tests for PasswordStrengthChecker."""
-import pytest
-from src.password_strength import PasswordStrengthChecker, StrengthResult
+from src.password_strength import PasswordStrengthChecker
 
 
 class TestPasswordStrengthChecker:

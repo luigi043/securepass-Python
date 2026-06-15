@@ -5,8 +5,8 @@ Scores password strength on a 0–100 scale and returns human-readable feedback.
 Detects common patterns, dictionary words, and character diversity.
 """
 
-import re
 import logging
+import re
 from dataclasses import dataclass, field
 
 logger = logging.getLogger(__name__)

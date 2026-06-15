@@ -1,6 +1,7 @@
 """Tests for EncryptionService."""
+
 import pytest
-from pathlib import Path
+
 from src.encryption_service import EncryptionService
 
 

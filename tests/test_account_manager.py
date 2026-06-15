@@ -1,7 +1,9 @@
 """Tests for AccountManager."""
-import pytest
 from datetime import datetime, timedelta
-from src.account_manager import AccountManager, Account
+
+import pytest
+
+from src.account_manager import AccountManager
 
 
 class TestAccountManager:

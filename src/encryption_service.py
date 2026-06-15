@@ -13,6 +13,7 @@ The encryption key is generated once and stored in vault/.vault.key
 This file must be kept secret — it is the master key to the vault.
 """
 
+import contextlib
 import logging
 from pathlib import Path
 
@@ -50,11 +51,9 @@ class EncryptionService:
         key = Fernet.generate_key()
         self.key_path.parent.mkdir(parents=True, exist_ok=True)
         self.key_path.write_bytes(key)
-        # Restrict file permissions on Unix systems
-        try:
+        # Restrict file permissions on Unix systems (no-op on Windows)
+        with contextlib.suppress(NotImplementedError):
             self.key_path.chmod(0o600)
-        except NotImplementedError:
-            pass  # Windows doesn't support chmod
         self._fernet = Fernet(key)
         logger.info("Generated new encryption key: %s", self.key_path)
 

@@ -5,9 +5,9 @@ Generates cryptographically secure passwords using the `secrets` module.
 Never uses `random` — secrets is designed for security-sensitive applications.
 """
 
+import logging
 import secrets
 import string
-import logging
 from dataclasses import dataclass
 
 logger = logging.getLogger(__name__)

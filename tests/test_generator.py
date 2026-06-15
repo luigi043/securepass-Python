@@ -1,7 +1,9 @@
 """Tests for PasswordGenerator."""
-import pytest
 import string
-from src.password_generator import PasswordGenerator, GeneratorOptions
+
+import pytest
+
+from src.password_generator import GeneratorOptions, PasswordGenerator
 
 
 class TestPasswordGenerator:
@@ -86,7 +88,6 @@ class TestPasswordGenerator:
 
     def test_not_random_module(self):
         """Confirm secrets is used — passwords should not be predictable."""
-        import secrets as s_module
         gen = PasswordGenerator()
         pw1 = gen.generate(GeneratorOptions(length=32))
         pw2 = gen.generate(GeneratorOptions(length=32))
